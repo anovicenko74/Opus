@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './style.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentDocument } from '@/redux/documentsSlice';
+import { setCurrentDocument } from '@/redux/slices/documentsSlice';
 
 function Paper(text) {
   const currentDocument = useSelector(

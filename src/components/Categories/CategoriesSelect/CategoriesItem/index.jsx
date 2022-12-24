@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   saveCurrentDocument,
   switchCurrentDocument,
-} from '@/redux/documentsSlice';
+} from '@/redux/slices/documentsSlice';
+
 function CategoryItem({ document }) {
   const dispatch = useDispatch();
-  
+
   const handleItemClick = (e, id) => {
     dispatch(saveCurrentDocument());
-    dispatch(switchCurrentDocument(id));
+    dispatch(switchCurrentDocument({ id }));
   };
 
   return (

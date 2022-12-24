@@ -7,7 +7,7 @@ import {
   addDocument,
   createEmptyDocument,
   saveCurrentDocument,
-} from '@/redux/documentsSlice';
+} from '@/redux/slices/documentsSlice';
 
 function App() {
   const [currentDocument, count] = useSelector((state) => [
@@ -55,6 +55,7 @@ function App() {
           </button>
         </div>
       </section>
+      {}
       <Categories />
     </div>
   );

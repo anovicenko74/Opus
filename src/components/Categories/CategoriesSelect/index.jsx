@@ -8,7 +8,12 @@ function CategoriesSelect({ category }) {
   const documents = useSelector((state) => state.documents.documents);
 
   useEffect(() => {
-    setCategoryDocuments(documents.filter((doc) => category in doc.categories));
+    setCategoryDocuments(
+      documents.filter((doc) => {
+        console.log(doc, doc.categories);
+        return doc.categories.includes(category);
+      })
+    );
   }, [documents]);
 
   const handleCategoryClick = () => {

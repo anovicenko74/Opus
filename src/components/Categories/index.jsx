@@ -4,19 +4,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   saveCurrentDocument,
   switchCurrentDocument,
-  addCategory,
-} from '@/redux/documentsSlice';
+} from '@/redux/slices/documentsSlice';
+import { addCategory } from '@/redux/slices/categoriesSlice';
 
 function Categories() {
   const [categoryName, setCategoryName] = useState('');
-  const [documents, currentDocument, categories] = useSelector((state) => [
-    state.documents.documents,
-    state.documents.currentDocument,
-    state.documents.categories,
-  ]);
+  const [documents, currentDocument, categories, errorMessage] = useSelector(
+    (state) => [
+      state.documents.documents,
+      state.documents.currentDocument,
+      state.categories.categories,
+      state.categories.errorMessage,
+    ]
+  );
   const dispatch = useDispatch();
   const currentDocumentIsExist = Boolean(currentDocument.id);
-
   const handleSwitchDocument = (e, doc) => {
     if (currentDocumentIsExist) {
       dispatch(saveCurrentDocument(currentDocument.id));
@@ -27,7 +29,7 @@ function Categories() {
   };
 
   const handleAddCategory = (e) => {
-    dispatch(addCategory(categoryName));
+    dispatch(addCategory({ categoryName }));
   };
 
   return (
@@ -42,6 +44,7 @@ function Categories() {
       {categories.map((category) => (
         <CategoriesSelect key={category} category={category} />
       ))}
+      {errorMessage ? <div>{errorMessage}</div> : ''}
       {documents.map((doc) => (
         <h1 key={doc.id} onClick={(e) => handleSwitchDocument(e, doc)}>
           {[doc.id, doc.title]}
