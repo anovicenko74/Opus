@@ -8,17 +8,8 @@ const categorySlice = createSlice({
     errorMessage: null,
   },
   reducers: {
-    addCategory: {
-      reducer: (state, action) => {
-        state.categories.push(String(action.payload.categoryName));
-      },
-      prepare: ({ categoryName }) => {
-        return {
-          payload: {
-            categoryName,
-          },
-        };
-      },
+    addCategory: (state, action) => {
+      state.categories.push(String(action.payload.categoryName));
     },
 
     error: (state, action) => {

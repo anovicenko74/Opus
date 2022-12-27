@@ -9,8 +9,29 @@
 }
 
 .container {
-  margin: 0 auto;
-  max-width: 982px;
+  display: flex;
+  margin: 10px;
+}
+
+.document {
+  flex: 1 1 75%;
+}
+
+.categories {
+  flex: 1 1 25%;
+}
+
+.document,
+.categories {
+  padding: 10px;
+}
+
+.categoriesContent,
+.documentContent {
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 10px;
+  height: 100%;
 }
 
 @media screen and (max-width: 992px) {

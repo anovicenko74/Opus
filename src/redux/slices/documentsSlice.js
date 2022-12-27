@@ -5,14 +5,13 @@ const emptyDocument = {
   text: '',
   title: '',
   id: '',
-  categories: [],
+  category: '',
 };
 
 const documentsSlice = createSlice({
   name: 'documents',
   initialState: {
     count: 0,
-    categories: [],
     documents: [],
     currentDocument: {
       ...emptyDocument,
@@ -22,15 +21,15 @@ const documentsSlice = createSlice({
     addDocument: {
       reducer: (state, action) => {
         state.count++;
-        state.currentDocument = { ...emptyDocument };
         state.documents.push({
           ...state.currentDocument,
           id: action.payload.id,
         });
+        state.currentDocument = { ...emptyDocument };
       },
-      prepare: () => {
+      prepare: (payload) => {
         return {
-          payload: {  id: uniqid() },
+          payload: { ...payload, id: uniqid() },
         };
       },
     },
@@ -49,6 +48,7 @@ const documentsSlice = createSlice({
       state.currentDocument = documentWithPayloadId; // changeDocument in documents
     },
     setCurrentDocument: (state, action) => {
+      console.log('set', action);
       state.currentDocument = { ...state.currentDocument, ...action.payload };
     },
 

@@ -8,6 +8,7 @@ import {
 import { addCategory } from '@/redux/slices/categoriesSlice';
 
 function Categories() {
+  const dispatch = useDispatch();
   const [categoryName, setCategoryName] = useState('');
   const [documents, currentDocument, categories, errorMessage] = useSelector(
     (state) => [
@@ -17,15 +18,13 @@ function Categories() {
       state.categories.errorMessage,
     ]
   );
-  const dispatch = useDispatch();
   const currentDocumentIsExist = Boolean(currentDocument.id);
+  console.log(documents);
   const handleSwitchDocument = (e, doc) => {
     if (currentDocumentIsExist) {
-      dispatch(saveCurrentDocument(currentDocument.id));
-      dispatch(switchCurrentDocument(doc.id));
-    } else {
-      dispatch(switchCurrentDocument(doc.id));
+      dispatch(saveCurrentDocument());
     }
+    dispatch(switchCurrentDocument({ id: doc.id }));
   };
 
   const handleAddCategory = (e) => {
@@ -47,7 +46,7 @@ function Categories() {
       {errorMessage ? <div>{errorMessage}</div> : ''}
       {documents.map((doc) => (
         <h1 key={doc.id} onClick={(e) => handleSwitchDocument(e, doc)}>
-          {[doc.id, doc.title]}
+          {[doc.id, doc.category]}
         </h1>
       ))}
     </>

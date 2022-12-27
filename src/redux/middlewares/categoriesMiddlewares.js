@@ -2,7 +2,6 @@ const categoryCheckUniqueMiddleware = (store) => (next) => (action) => {
   if (action.type !== 'categories/addCategory') return next(action);
   const categoryName = String(action.payload.categoryName);
   const categories = store.getState().categories.categories;
-  console.log('check', action);
   if (!categoryName) {
     const action = {
       type: 'categories/error',
@@ -27,9 +26,4 @@ const categoryCheckUniqueMiddleware = (store) => (next) => (action) => {
   return next(action);
 };
 
-const categoryErrorMiddleware = (store) => (next) => (action) => {
-  if (action.type !== 'categories/error') return next(action);
-  return next(action);
-};
-
-export { categoryCheckUniqueMiddleware, categoryErrorMiddleware };
+export { categoryCheckUniqueMiddleware };

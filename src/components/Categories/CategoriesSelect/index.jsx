@@ -1,38 +1,50 @@
+import style from './style.module.css';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import CategoryItem from './CategoriesItem';
+import {
+  saveCurrentDocument,
+  switchCurrentDocument,
+} from '@/redux/slices/documentsSlice';
+import Select from '@/components/UI/Select';
+import Option from '@/components/UI/Select/Option';
 
 function CategoriesSelect({ category }) {
-  const [isSelectOpen, setIsSelectOpen] = useState(false);
+  const dispatch = useDispatch();
   const [categoryDocuments, setCategoryDocuments] = useState([]);
-  const documents = useSelector((state) => state.documents.documents);
+  const [currentDocument, documents] = useSelector((state) => [
+    state.documents.currentDocument,
+    state.documents.documents,
+  ]);
+  const currentDocumentIsExist = Boolean(currentDocument.id);
 
   useEffect(() => {
     setCategoryDocuments(
       documents.filter((doc) => {
-        console.log(doc, doc.categories);
-        return doc.categories.includes(category);
+        return doc.category === category;
       })
     );
+    console.log('documents', categoryDocuments, documents, category);
   }, [documents]);
 
-  const handleCategoryClick = () => {
-    setIsSelectOpen((isSelectOpen) => !isSelectOpen);
+  const handleSwitchDocument = (e, doc) => {
+    if (currentDocumentIsExist) {
+      dispatch(saveCurrentDocument());
+    }
+    dispatch(switchCurrentDocument({ id: doc.id }));
   };
 
   return (
-    <>
-      {!isSelectOpen ? (
-        <h2>{category}</h2>
-      ) : (
-        <>
-          <h2 onClick={handleCategoryClick}>{category}</h2>
-          {categoryDocuments.map((document) => (
-            <CategoryItem document={document} />
-          ))}
-        </>
-      )}
-    </>
+    <Select title={category}>
+      {categoryDocuments.map((doc) => (
+        <Option
+          key={doc.id}
+          onClick={(e) => {
+            handleSwitchDocument(e, doc);
+          }}
+          value={doc.id}
+        />
+      ))}
+    </Select>
   );
 }
 
