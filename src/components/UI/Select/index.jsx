@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-
-function Select({ title, children }) {
+import Item from '../Item';
+import style from './style.module.css';
+function Select({ title, children  }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <div onClick={() => setIsOpen((isCurrentOpen) => !isCurrentOpen)}>
-        {title}
+      <div
+        className={style.select}
+        onClick={() => setIsOpen((isCurrentOpen) => !isCurrentOpen)}
+      >
+        <Item text={title} />
       </div>
       {isOpen ? children : ''}
     </>

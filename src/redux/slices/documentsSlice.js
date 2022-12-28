@@ -48,7 +48,6 @@ const documentsSlice = createSlice({
       state.currentDocument = documentWithPayloadId; // changeDocument in documents
     },
     setCurrentDocument: (state, action) => {
-      console.log('set', action);
       state.currentDocument = { ...state.currentDocument, ...action.payload };
     },
 

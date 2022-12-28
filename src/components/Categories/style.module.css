@@ -1,0 +1,14 @@
+.popupContentContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 15px 0 0 0;
+}
+
+.popupInput {
+  margin: 0px 0px 10px 0px;
+}
+
+.popupErrorMessage {
+  margin: 0px 0px 10px 0px;
+}
