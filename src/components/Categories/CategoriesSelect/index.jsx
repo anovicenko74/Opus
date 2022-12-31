@@ -41,7 +41,7 @@ function CategoriesSelect({ category }) {
           onClick={(e) => {
             handleSwitchDocument(e, doc);
           }}
-          value={doc.title}
+          value={doc.id}
         />
       ))}
     </Select>
