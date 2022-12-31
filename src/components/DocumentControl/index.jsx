@@ -2,8 +2,6 @@ import React from 'react';
 import Paper from './Paper';
 import Select from '@/components/UI/Select';
 import Option from '@/components/UI/Select/Option';
-import Input from '@/components/UI/Input';
-import Button from '@/components/UI/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addDocument,
@@ -44,14 +42,15 @@ function DocumentControl() {
 
   return (
     <div>
-      <Input
+      <input
         type="text"
-        placeholder="Заголовок"
+        placeholder="title"
         value={currentDocument.title}
         onChange={(e) =>
           dispatch(setCurrentDocument({ title: e.target.value }))
         }
       />
+      <h2>{currentDocument.id}</h2>
       <div>
         <Paper />
         <Select title="Категория">
@@ -63,14 +62,12 @@ function DocumentControl() {
             ></Option>
           ))}
         </Select>
-        <Button
-          onClick={handleSaveCurrentDocument}
-          text={currentDocumentIsExist ? 'Сохранить' : 'Добавить'}
-        />
-        <Button
-          onClick={handleCreateEmptyDocument}
-          text={currentDocumentIsExist ? 'Создать новую запись' : 'Очистить'}
-        />
+        <button onClick={handleSaveCurrentDocument}>
+          {currentDocumentIsExist ? 'Сохранить' : 'Добавить'}
+        </button>
+        <button onClick={handleCreateEmptyDocument}>
+          {currentDocumentIsExist ? 'Создать новую запись' : 'Очистить'}
+        </button>
       </div>
     </div>
   );
