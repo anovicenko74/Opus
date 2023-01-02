@@ -12,4 +12,14 @@
   border-top-left-radius: 5px 35px;
   border-top-right-radius: 15px 42px;
   user-select: none;
+
+  display: flex;
+}
+
+.text {
+  flex: 1 0 auto;
+}
+
+.children {
+  display: flex;
 }

@@ -7,9 +7,9 @@ const categoryCheckMiddleware = (store) => (next) => (action) => {
   let errorAction = null;
   const categoryName = String(action.payload.categoryName);
   const categories = store.getState().categories.categories;
-
   const isOnlySpaceInCategoryName =
     categoryName.split(' ').length - 1 === categoryName.length;
+
   if (!categoryName || isOnlySpaceInCategoryName) {
     isError = true;
     errorAction = {
@@ -49,7 +49,7 @@ const categoryCheckMiddleware = (store) => (next) => (action) => {
       payload: { errorMessage: '' },
     });
   }
-  
+
   return next(action);
 };
 

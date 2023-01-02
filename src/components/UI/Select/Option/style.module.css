@@ -5,3 +5,7 @@
   margin: 5px 0px 5px 15px;
   cursor: pointer;
 }
+
+.active {
+  background-color: #367222ff;
+}

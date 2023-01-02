@@ -57,8 +57,9 @@ function DocumentControl() {
         <Select title="Категория">
           {categories.map((category) => (
             <Option
+              selected={category === currentDocument.category}
               key={category}
-              value={category}
+              text={category}
               onClick={(e) => handleClickCategory(e, category)}
             ></Option>
           ))}
