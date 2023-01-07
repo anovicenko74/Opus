@@ -1,2 +1,25 @@
 .select {
 }
+
+.content {
+  display: flex;
+  align-items: center;
+}
+
+.count {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #7a84b8ff;
+  border-radius: 100%;
+
+  margin: 0 5px 0 0;
+}
+
+.count > span {
+  font-size: 10px;
+  color: #ffffff;
+  position: absolute;
+}

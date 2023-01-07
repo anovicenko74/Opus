@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Paper from './Paper';
 import Select from '@/components/UI/Select';
 import Option from '@/components/UI/Select/Option';
 import Input from '@/components/UI/Input';
 import Button from '@/components/UI/Button';
+import style from './style.module.css';
 import { useDispatch, useSelector } from 'react-redux';
+import { getFormatFromTimestamp } from '@/utils/date.js';
 import {
   addDocument,
   createEmptyDocument,
@@ -13,14 +15,13 @@ import {
 } from '@/redux/slices/documentsSlice';
 
 function DocumentControl() {
-  const [currentDocument, count, categories] = useSelector((state) => [
+  const [currentDocument, errorMessage, categories] = useSelector((state) => [
     state.documents.currentDocument,
-    state.documents.count,
+    state.documents.errorMessage,
     state.categories.categories,
   ]);
   const dispatch = useDispatch();
   const currentDocumentIsExist = Boolean(currentDocument.id);
-
   const handleCreateEmptyDocument = (e) => {
     if (currentDocumentIsExist) {
       dispatch(saveCurrentDocument());
@@ -38,22 +39,37 @@ function DocumentControl() {
   };
 
   const handleClickCategory = (e, category) => {
-    console.log('category', category);
-    dispatch(setCurrentDocument({ category }));
+    if (category === currentDocument.category) {
+      dispatch(setCurrentDocument({ category: '' }));
+    } else {
+      dispatch(setCurrentDocument({ category }));
+    }
   };
-
   return (
     <div>
-      <Input
-        type="text"
-        placeholder="Заголовок"
-        value={currentDocument.title}
-        onChange={(e) =>
-          dispatch(setCurrentDocument({ title: e.target.value }))
-        }
-      />
+      {currentDocumentIsExist ? (
+        <div>
+          Время создания: {getFormatFromTimestamp(currentDocument.date)}
+        </div>
+      ) : (
+        ''
+      )}
+
+      <div className={style.titleInput}>
+        <Input
+          type="text"
+          placeholder="Заголовок"
+          value={currentDocument.title}
+          onChange={(e) =>
+            dispatch(setCurrentDocument({ title: e.target.value }))
+          }
+        />
+        {errorMessage ? errorMessage : ''}
+      </div>
       <div>
-        <Paper />
+        <div className={style.paper}>
+          <Paper />
+        </div>
         <Select title="Категория">
           {categories.map((category) => (
             <Option

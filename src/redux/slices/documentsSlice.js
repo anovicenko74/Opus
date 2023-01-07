@@ -11,11 +11,11 @@ const emptyDocument = {
 const documentsSlice = createSlice({
   name: 'documents',
   initialState: {
-    count: 0,
     documents: [],
     currentDocument: {
       ...emptyDocument,
     },
+    errorMessage: '',
   },
   reducers: {
     addDocument: {
@@ -24,12 +24,13 @@ const documentsSlice = createSlice({
         state.documents.push({
           ...state.currentDocument,
           id: action.payload.id,
+          date: action.payload.date,
         });
         state.currentDocument = { ...emptyDocument };
       },
       prepare: (payload) => {
         return {
-          payload: { ...payload, id: uniqid() },
+          payload: { ...payload, id: uniqid(), date: Date.now() },
         };
       },
     },
@@ -58,6 +59,9 @@ const documentsSlice = createSlice({
       state.count--;
       state.documents.filter((doc) => doc.id !== action.payload.id);
     },
+    documentError: (state, action) => {
+      state.errorMessage = action.payload.errorMessage;
+    },
   },
 });
 export default documentsSlice.reducer;
@@ -69,4 +73,5 @@ export const {
   switchCurrentDocument,
   createEmptyDocument,
   saveCurrentDocument,
+  documentError,
 } = documentsSlice.actions;

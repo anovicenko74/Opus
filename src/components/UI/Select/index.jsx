@@ -7,7 +7,7 @@ import {
   faCircleChevronUp,
 } from '@fortawesome/free-solid-svg-icons';
 
-function Select({ title, children }) {
+function Select({ title, count, children }) {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
@@ -16,9 +16,18 @@ function Select({ title, children }) {
         onClick={() => setIsOpen((isCurrentOpen) => !isCurrentOpen)}
       >
         <Item text={title}>
-          <FontAwesomeIcon
-            icon={isOpen ? faCircleChevronUp : faCircleChevronDown}
-          />
+          <div className={style.content}>
+            {count ? (
+              <div className={style.count}>
+                <span>{count}</span>
+              </div>
+            ) : (
+              ''
+            )}
+            <FontAwesomeIcon
+              icon={isOpen ? faCircleChevronUp : faCircleChevronDown}
+            />
+          </div>
         </Item>
       </div>
       {isOpen ? children : ''}

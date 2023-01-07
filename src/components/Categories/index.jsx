@@ -23,10 +23,12 @@ function Categories() {
 
   return (
     <>
-      <Button
-        onClick={() => setIsPopupOpen(true)}
-        text={'Добавить категорию'}
-      />
+      <div className={style.categoryButton}>
+        <Button
+          onClick={() => setIsPopupOpen(true)}
+          text={'Добавить категорию'}
+        />
+      </div>
 
       <Popup
         title={'Добавить новую категорию'}

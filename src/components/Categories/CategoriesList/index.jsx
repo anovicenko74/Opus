@@ -44,7 +44,11 @@ function CategoriesList() {
           return doc.category === category;
         });
         return (
-          <Select title={category} key={category}>
+          <Select
+            title={category}
+            key={category}
+            count={categoryDocuments.length}
+          >
             {categoryDocuments.map((doc) => (
               <Option
                 selected={doc.id === currentDocument.id}
