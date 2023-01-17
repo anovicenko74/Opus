@@ -1,7 +1,6 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import documentsReducer from './slices/documentsSlice';
 import categoriesReducer from './slices/categoriesSlice';
-import categoriesListener from './listeners/categoriesListener';
 import { categoryCheckMiddleware } from '@/redux/middlewares/categoriesMiddlewares';
 import { documentCheckMiddleware } from '@/redux/middlewares/documentsMiddlewares';
 import {
@@ -18,7 +17,6 @@ import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
   key: 'root',
-  version: 1,
   storage,
 };
 

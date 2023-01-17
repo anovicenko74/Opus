@@ -4,9 +4,9 @@ import Select from '@/components/UI/Select';
 import Option from '@/components/UI/Select/Option';
 import Input from '@/components/UI/Input';
 import Button from '@/components/UI/Button';
+import Timer from '@/components/DocumentControl/Timer';
 import style from './style.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFormatFromTimestamp } from '@/utils/date.js';
 import {
   addDocument,
   createEmptyDocument,
@@ -45,26 +45,28 @@ function DocumentControl() {
       dispatch(setCurrentDocument({ category }));
     }
   };
+  console.log(currentDocument.date);
   return (
     <div>
-      {currentDocumentIsExist ? (
-        <div>
-          Время создания: {getFormatFromTimestamp(currentDocument.date)}
+      <div className={style.header}>
+        <div className={style.titleInput}>
+          <Input
+            type="text"
+            placeholder="Заголовок"
+            value={currentDocument.title}
+            onChange={(e) =>
+              dispatch(setCurrentDocument({ title: e.target.value }))
+            }
+          />
+          {errorMessage ? errorMessage : ''}
         </div>
-      ) : (
-        ''
-      )}
-
-      <div className={style.titleInput}>
-        <Input
-          type="text"
-          placeholder="Заголовок"
-          value={currentDocument.title}
-          onChange={(e) =>
-            dispatch(setCurrentDocument({ title: e.target.value }))
-          }
-        />
-        {errorMessage ? errorMessage : ''}
+        {currentDocument.date ? (
+          <div className={style.timer}>
+            <Timer initialTime={currentDocument.date} />
+          </div>
+        ) : (
+          ''
+        )}
       </div>
       <div>
         <div className={style.paper}>

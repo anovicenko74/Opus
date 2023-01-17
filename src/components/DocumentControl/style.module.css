@@ -1,7 +1,15 @@
-.titleInput {
-  margin: 0 0 20px 0;
-}
-
 .paper {
   margin: 0px 0px 15px 0px;
+}
+
+.header {
+  margin: 0 0 15px 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.timer {
+  margin: 0px 0px 0px 15px;
 }

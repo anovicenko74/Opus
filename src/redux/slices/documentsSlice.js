@@ -34,19 +34,33 @@ const documentsSlice = createSlice({
         };
       },
     },
-    saveCurrentDocument: (state) => {
-      const stateDocuments = state.documents.slice();
-      const indexOfCurrentDocument = stateDocuments.findIndex(
-        (doc) => doc.id === state.currentDocument.id
-      );
-      stateDocuments[indexOfCurrentDocument] = state.currentDocument;
-      state.documents = stateDocuments; // save currentDocument in state.documents
+    saveCurrentDocument: {
+      // save currentDocument in state.documents
+      reducer: (state, action) => {
+        const stateDocuments = state.documents.slice();
+        const indexOfCurrentDocument = stateDocuments.findIndex(
+          (doc) => doc.id === state.currentDocument.id
+        );
+        stateDocuments[indexOfCurrentDocument] = {
+          ...state.currentDocument,
+          ...action.payload,
+        };
+        state.documents = stateDocuments;
+
+        state.currentDocument = action.payload.date; // save time synchronization :(
+      },
+      prepare: (payload) => {
+        return {
+          payload: { ...payload, date: Date.now() },
+        };
+      },
     },
+
     switchCurrentDocument: (state, action) => {
       const documentWithPayloadId = state.documents.find(
         (doc) => doc.id == action.payload.id
       );
-      state.currentDocument = documentWithPayloadId; // changeDocument in documents
+      state.currentDocument = documentWithPayloadId;
     },
     setCurrentDocument: (state, action) => {
       state.currentDocument = { ...state.currentDocument, ...action.payload };
