@@ -5,6 +5,7 @@ import {
   faChevronLeft,
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
+
 function Navigation({
   onClickBack: handleClickBack,
   onClickNext: handleClickNext,
@@ -13,21 +14,25 @@ function Navigation({
 }) {
   return (
     <div className={style.navigation}>
-      {page > 1 ? (
-        <div className={style.arrow} onClick={handleClickBack}>
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </div>
-      ) : (
-        ''
-      )}
+      <div className={style.arrowContainer}>
+        {page > 1 ? (
+          <div className={style.arrow} onClick={handleClickBack}>
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </div>
+        ) : (
+          ''
+        )}
+      </div>
       <div className={style.page}>{page}</div>
-      {page < pagesCount ? (
-        <div className={style.arrow} onClick={handleClickNext}>
-          <FontAwesomeIcon icon={faChevronRight} />
-        </div>
-      ) : (
-        ''
-      )}
+      <div className={style.arrowContainer}>
+        {page < pagesCount ? (
+          <div className={style.arrow} onClick={handleClickNext}>
+            <FontAwesomeIcon icon={faChevronRight} />
+          </div>
+        ) : (
+          ''
+        )}
+      </div>
     </div>
   );
 }

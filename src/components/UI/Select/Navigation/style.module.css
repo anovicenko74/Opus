@@ -1,15 +1,24 @@
 .navigation {
   display: flex;
-  justify-content: space-around;
-  margin: 10px 20px;
+  align-items: center;
   user-select: none;
 }
 
 .page {
-  flex: 1 0 auto;
   text-align: center;
 }
 
 .arrow {
   cursor: pointer;
+  flex: 1 0 auto;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.arrow:hover {
+  background-color: rgba(255, 200, 200, 0.5);
+}
+
+.arrowContainer {
+  flex: 1 0 auto;
 }
