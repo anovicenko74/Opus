@@ -12,4 +12,9 @@
 
 .timer {
   margin: 0px 0px 0px 15px;
+  display: flex;
+}
+
+.timerTitle {
+  margin: 0px 5px 0px 0px;
 }

@@ -1,7 +1,7 @@
 .select {
 }
 
-.content {
+.selectItem {
   display: flex;
   align-items: center;
 }
@@ -22,4 +22,11 @@
   font-size: 10px;
   color: #ffffff;
   position: absolute;
+}
+
+.content {
+}
+
+.options {
+  flex: 1 0 auto;
 }

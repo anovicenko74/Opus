@@ -23,8 +23,7 @@ const documentsSlice = createSlice({
         state.count++;
         state.documents.push({
           ...state.currentDocument,
-          id: action.payload.id,
-          date: action.payload.date,
+          ...action.payload,
         });
         state.currentDocument = { ...emptyDocument };
       },
@@ -35,7 +34,6 @@ const documentsSlice = createSlice({
       },
     },
     saveCurrentDocument: {
-      // save currentDocument in state.documents
       reducer: (state, action) => {
         const stateDocuments = state.documents.slice();
         const indexOfCurrentDocument = stateDocuments.findIndex(
@@ -47,7 +45,7 @@ const documentsSlice = createSlice({
         };
         state.documents = stateDocuments;
 
-        state.currentDocument = action.payload.date; // save time synchronization :(
+        state.currentDocument.date = action.payload.date;
       },
       prepare: (payload) => {
         return {
@@ -55,7 +53,6 @@ const documentsSlice = createSlice({
         };
       },
     },
-
     switchCurrentDocument: (state, action) => {
       const documentWithPayloadId = state.documents.find(
         (doc) => doc.id == action.payload.id

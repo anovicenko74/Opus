@@ -45,7 +45,6 @@ function DocumentControl() {
       dispatch(setCurrentDocument({ category }));
     }
   };
-  console.log(currentDocument.date);
   return (
     <div>
       <div className={style.header}>
@@ -62,7 +61,10 @@ function DocumentControl() {
         </div>
         {currentDocument.date ? (
           <div className={style.timer}>
-            <Timer initialTime={currentDocument.date} />
+            <span className={style.timerTitle}>Cохранено:</span>
+            <span>
+              <Timer initialTime={currentDocument.date} />
+            </span>
           </div>
         ) : (
           ''

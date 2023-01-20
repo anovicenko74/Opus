@@ -1,6 +1,6 @@
 let timerId;
 
-const documentCheckMiddleware = (store) => (next) => (action) => {
+const titleCheckMiddleware = (store) => (next) => (action) => {
   if (
     !(
       action.type === 'documents/addDocument' ||
@@ -49,4 +49,4 @@ const documentCheckMiddleware = (store) => (next) => (action) => {
   return next(action);
 };
 
-export { documentCheckMiddleware };
+export default titleCheckMiddleware;

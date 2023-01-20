@@ -1,8 +1,10 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import documentsReducer from './slices/documentsSlice';
 import categoriesReducer from './slices/categoriesSlice';
-import { categoryCheckMiddleware } from '@/redux/middlewares/categoriesMiddlewares';
-import { documentCheckMiddleware } from '@/redux/middlewares/documentsMiddlewares';
+import categoryCheckMiddleware from '@/redux/middlewares/categoryCheckMiddleware';
+import titleCheckMiddleware from '@/redux/middlewares/titleCheckMiddleware';
+import abortSaveMiddleware from './middlewares/abortSaveMiddleware';
+
 import {
   persistStore,
   persistReducer,
@@ -34,7 +36,11 @@ const store = configureStore({
       serializableCheck: {
         ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).prepend(categoryCheckMiddleware, documentCheckMiddleware),
+    }).prepend(
+      categoryCheckMiddleware,
+      titleCheckMiddleware,
+      abortSaveMiddleware
+    ),
 });
 
 const persistor = persistStore(store);

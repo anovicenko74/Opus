@@ -53,4 +53,4 @@ const categoryCheckMiddleware = (store) => (next) => (action) => {
   return next(action);
 };
 
-export { categoryCheckMiddleware };
+export default categoryCheckMiddleware;

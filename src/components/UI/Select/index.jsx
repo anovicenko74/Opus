@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Item from '../Item';
+import Navigation from './Navigation';
 import style from './style.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -7,8 +8,22 @@ import {
   faCircleChevronUp,
 } from '@fortawesome/free-solid-svg-icons';
 
+const COUNT_ITEMS = 4;
+
 function Select({ title, count, children }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [visibleContent, setVisibleContent] = useState(
+    children.slice(0, COUNT_ITEMS)
+  );
+  const [page, setPage] = useState(1);
+  const pagesCount = Math.ceil(children.length / COUNT_ITEMS);
+  const withNavigation = pagesCount > 1;
+  useEffect(() => {
+    setVisibleContent(
+      children.slice(COUNT_ITEMS * (page - 1), COUNT_ITEMS * page)
+    );
+  }, [page, children]);
+
   return (
     <>
       <div
@@ -16,7 +31,7 @@ function Select({ title, count, children }) {
         onClick={() => setIsOpen((isCurrentOpen) => !isCurrentOpen)}
       >
         <Item text={title}>
-          <div className={style.content}>
+          <div className={style.selectItem}>
             {count ? (
               <div className={style.count}>
                 <span>{count}</span>
@@ -30,7 +45,23 @@ function Select({ title, count, children }) {
           </div>
         </Item>
       </div>
-      {isOpen ? children : ''}
+      {isOpen ? (
+        <div className={style.content}>
+          <div className={style.options}>{visibleContent}</div>
+          {withNavigation ? (
+            <Navigation
+              page={page}
+              pagesCount={pagesCount}
+              onClickBack={() => setPage((p) => --p)}
+              onClickNext={() => setPage((p) => ++p)}
+            />
+          ) : (
+            ''
+          )}
+        </div>
+      ) : (
+        ''
+      )}
     </>
   );
 }

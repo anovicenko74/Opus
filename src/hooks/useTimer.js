@@ -29,7 +29,10 @@ function getFormatFromTimestamp(timeDifference) {
     return `${Math.floor(timeDifference / MS_IN_HOUR)}ч назад`;
   } else {
     const date = new Date(Date.now() - timeDifference);
-    return `${date.getFullYear()}:${date.getMonth()}:${date.getDate()}`;
+    const year = date.getFullYear();
+    const month = `0${date.getMonth() + 1}`.slice(-2);
+    const day = date.getDate();
+    return `${day}.${month}.${year}`;
   }
 }
 

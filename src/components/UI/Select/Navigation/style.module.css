@@ -1,0 +1,14 @@
+.navigation {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 20px;
+}
+
+.page {
+  flex: 1 0 auto;
+  text-align: center;
+}
+
+.arrow {
+  cursor: pointer;
+}

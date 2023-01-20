@@ -1,5 +1,5 @@
 import style from './style.module.css';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   saveCurrentDocument,
@@ -16,6 +16,10 @@ function CategoriesList() {
     state.documents.documents,
   ]);
   const currentDocumentIsExist = Boolean(currentDocument.id);
+  const sortedDocuments = useMemo(
+    () => documents.slice().sort((a, b) => b.date - a.date),
+    [documents]
+  );
 
   const handleSwitchDocument = (e, doc) => {
     if (currentDocumentIsExist) {
@@ -27,7 +31,7 @@ function CategoriesList() {
   return (
     <>
       <Select title={'Все'}>
-        {documents.map((doc) => (
+        {sortedDocuments.map((doc) => (
           <Option
             selected={doc.id === currentDocument.id}
             key={doc.id}
@@ -35,12 +39,14 @@ function CategoriesList() {
               handleSwitchDocument(e, doc);
             }}
             text={doc.title}
-          />
+          >
+            <div className={style.documentCategory}>{doc.category}</div>
+          </Option>
         ))}
       </Select>
 
       {categories.map((category) => {
-        const categoryDocuments = documents.filter((doc) => {
+        const categoryDocuments = sortedDocuments.filter((doc) => {
           return doc.category === category;
         });
         return (
@@ -57,7 +63,7 @@ function CategoriesList() {
                   handleSwitchDocument(e, doc);
                 }}
                 text={doc.title}
-              ></Option>
+              />
             ))}
           </Select>
         );
