@@ -25,7 +25,7 @@ function getFormatFromTimestamp(timeDifference) {
     return 'меньше минуты назад';
   } else if (timeDifference < MS_IN_HOUR) {
     return `${Math.floor(timeDifference / MS_IN_MIN)}м назад`;
-  } else if (timeDifference < 60000 * 60) {
+  } else if (timeDifference < MS_IN_MIN * 60 * 24) {
     return `${Math.floor(timeDifference / MS_IN_HOUR)}ч назад`;
   } else {
     const date = new Date(Date.now() - timeDifference);

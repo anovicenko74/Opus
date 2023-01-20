@@ -47,7 +47,6 @@ function Select({ title, count, children }) {
       </div>
       {isOpen ? (
         <div className={style.content}>
-          <div className={style.options}>{visibleContent}</div>
           {withNavigation ? (
             <Navigation
               page={page}
@@ -58,6 +57,7 @@ function Select({ title, count, children }) {
           ) : (
             ''
           )}
+          <div className={style.options}>{visibleContent}</div>
         </div>
       ) : (
         ''
