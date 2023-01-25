@@ -8,21 +8,10 @@ import {
   faCircleChevronUp,
 } from '@fortawesome/free-solid-svg-icons';
 
-const COUNT_ITEMS = 4;
+const COUNT_OF_VISIBLE_OPTIONS = 4;
 
-function Select({ title, count, children }) {
+function Select({ title, count, ...props }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [visibleContent, setVisibleContent] = useState(
-    children.slice(0, COUNT_ITEMS)
-  );
-  const [page, setPage] = useState(1);
-  const pagesCount = Math.ceil(children.length / COUNT_ITEMS);
-  const withNavigation = pagesCount > 1;
-  useEffect(() => {
-    setVisibleContent(
-      children.slice(COUNT_ITEMS * (page - 1), COUNT_ITEMS * page)
-    );
-  }, [page, children]);
 
   return (
     <>
@@ -45,23 +34,7 @@ function Select({ title, count, children }) {
           </div>
         </Item>
       </div>
-      {isOpen ? (
-        <div className={style.content}>
-          {withNavigation ? (
-            <Navigation
-              page={page}
-              pagesCount={pagesCount}
-              onClickBack={() => setPage((p) => --p)}
-              onClickNext={() => setPage((p) => ++p)}
-            />
-          ) : (
-            ''
-          )}
-          <div className={style.options}>{visibleContent}</div>
-        </div>
-      ) : (
-        ''
-      )}
+      {isOpen ? props.children : ''}
     </>
   );
 }

@@ -53,7 +53,7 @@ function Categories() {
         </div>
       </Popup>
 
-      <CategoriesList></CategoriesList>
+      <CategoriesList />
     </>
   );
 }

@@ -8,6 +8,33 @@ import {
 import Select from '@/components/UI/Select';
 import Option from '@/components/UI/Select/Option';
 
+const renderCategorySelect = ({
+  title,
+  documents,
+  key,
+  checkSelected,
+  handleSwitchDocument,
+}) => {
+  const count = documents.length;
+
+  return (
+    <Select title={title} key={key} count={count}>
+      {documents.map((doc) => (
+        <Option
+          selected={checkSelected(doc)}
+          key={doc.id}
+          onClick={(e) => {
+            handleSwitchDocument(e, doc);
+          }}
+          text={doc.title}
+        >
+          <div className={style.documentCategory}>{doc.category}</div>
+        </Option>
+      ))}
+    </Select>
+  );
+};
+
 function CategoriesList() {
   const dispatch = useDispatch();
   const [categories, currentDocument, documents] = useSelector((state) => [
@@ -21,6 +48,10 @@ function CategoriesList() {
     [documents]
   );
 
+  const checkSelected = (doc) => {
+    return doc.id === currentDocument.id;
+  };
+
   const handleSwitchDocument = (e, doc) => {
     if (currentDocumentIsExist) {
       dispatch(saveCurrentDocument());
@@ -30,43 +61,25 @@ function CategoriesList() {
 
   return (
     <>
-      <Select title={'Все'}>
-        {sortedDocuments.map((doc) => (
-          <Option
-            selected={doc.id === currentDocument.id}
-            key={doc.id}
-            onClick={(e) => {
-              handleSwitchDocument(e, doc);
-            }}
-            text={doc.title}
-          >
-            <div className={style.documentCategory}>{doc.category}</div>
-          </Option>
-        ))}
-      </Select>
+      {renderCategorySelect({
+        title: 'Все',
+        documents: sortedDocuments,
+        checkSelected,
+        handleSwitchDocument,
+      })}
 
       {categories.map((category) => {
         const categoryDocuments = sortedDocuments.filter((doc) => {
           return doc.category === category;
         });
-        return (
-          <Select
-            title={category}
-            key={category}
-            count={categoryDocuments.length}
-          >
-            {categoryDocuments.map((doc) => (
-              <Option
-                selected={doc.id === currentDocument.id}
-                key={doc.id}
-                onClick={(e) => {
-                  handleSwitchDocument(e, doc);
-                }}
-                text={doc.title}
-              />
-            ))}
-          </Select>
-        );
+
+        return renderCategorySelect({
+          title: category,
+          key: category,
+          documents: categoryDocuments,
+          checkSelected,
+          handleSwitchDocument,
+        });
       })}
     </>
   );
