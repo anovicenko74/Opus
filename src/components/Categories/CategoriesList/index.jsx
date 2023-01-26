@@ -5,35 +5,9 @@ import {
   saveCurrentDocument,
   switchCurrentDocument,
 } from '@/redux/slices/documentsSlice';
-import Select from '@/components/UI/Select';
+import SelectWithNavigation from '@/components/UI/Select/SelectWithNavigation';
+import DraggableSelect from './DraggableSelect';
 import Option from '@/components/UI/Select/Option';
-
-const renderCategorySelect = ({
-  title,
-  documents,
-  key,
-  checkSelected,
-  handleSwitchDocument,
-}) => {
-  const count = documents.length;
-
-  return (
-    <Select title={title} key={key} count={count}>
-      {documents.map((doc) => (
-        <Option
-          selected={checkSelected(doc)}
-          key={doc.id}
-          onClick={(e) => {
-            handleSwitchDocument(e, doc);
-          }}
-          text={doc.title}
-        >
-          <div className={style.documentCategory}>{doc.category}</div>
-        </Option>
-      ))}
-    </Select>
-  );
-};
 
 function CategoriesList() {
   const dispatch = useDispatch();
@@ -59,26 +33,45 @@ function CategoriesList() {
     dispatch(switchCurrentDocument({ id: doc.id }));
   };
 
+  const renderDraggableSelect = ({ title, documents, key }) => {
+    const count = documents.length;
+    return (
+      <DraggableSelect title={title} key={key} count={count}>
+        {documents.map((doc) => renderOption(doc))}
+      </DraggableSelect>
+    );
+  };
+
+  const renderOption = (doc) => (
+    <Option
+      selected={checkSelected(doc)}
+      key={doc.id}
+      onClick={(e) => {
+        handleSwitchDocument(e, doc);
+      }}
+      text={doc.title}
+    >
+      <div className={style.documentCategory}>{doc.category}</div>
+    </Option>
+  );
+
   return (
     <>
-      {renderCategorySelect({
-        title: 'Все',
-        documents: sortedDocuments,
-        checkSelected,
-        handleSwitchDocument,
-      })}
+      <SelectWithNavigation title="Все">
+        {sortedDocuments.map((doc) => renderOption(doc))}
+      </SelectWithNavigation>
+
+      <hr className={style.hr} />
 
       {categories.map((category) => {
         const categoryDocuments = sortedDocuments.filter((doc) => {
           return doc.category === category;
         });
 
-        return renderCategorySelect({
+        return renderDraggableSelect({
           title: category,
           key: category,
           documents: categoryDocuments,
-          checkSelected,
-          handleSwitchDocument,
         });
       })}
     </>

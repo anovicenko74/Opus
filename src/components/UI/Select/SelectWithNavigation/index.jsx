@@ -1,25 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Select from '..';
+import Navigation from '../Navigation';
 
 const COUNT_OF_VISIBLE_OPTIONS = 4;
 
-function SelectWithNavigation({ isNavigation, ...props }) {
-  const renderHiddenContent = () => (
-    <div className={style.content}>
-      {isNavigation ? (
+function SelectWithNavigation({ children, ...props }) {
+  const _renderNavigation = () => {
+    if (children.length > COUNT_OF_VISIBLE_OPTIONS)
+      return (
         <Navigation
           page={page}
           pagesCount={pagesCount}
           onClickBack={() => setPage((p) => --p)}
           onClickNext={() => setPage((p) => ++p)}
         />
-      ) : (
-        ''
-      )}
-      <div className={style.options}>{visibleOptions}</div>
-    </div>
-  );
-
-  if (!isNavigation) return <Select {...props} />;
+      );
+  };
 
   const [visibleOptions, setVisibleOptions] = useState(
     children.slice(0, COUNT_OF_VISIBLE_OPTIONS)
@@ -37,7 +33,11 @@ function SelectWithNavigation({ isNavigation, ...props }) {
     );
   }, [page, children]);
 
-  return <Select />;
+  return (
+    <Select {...props} _renderNavigation={_renderNavigation}>
+      {visibleOptions}
+    </Select>
+  );
 }
 
-export default index;
+export default SelectWithNavigation;

@@ -59,15 +59,13 @@ function DocumentControl() {
           />
           {errorMessage ? errorMessage : ''}
         </div>
-        {currentDocument.date ? (
+        {currentDocument.date && (
           <div className={style.timer}>
             <span className={style.timerTitle}>Cохранено:</span>
             <span>
               <Timer initialTime={currentDocument.date} />
             </span>
           </div>
-        ) : (
-          ''
         )}
       </div>
       <div>

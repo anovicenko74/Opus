@@ -11,7 +11,9 @@ const categorySlice = createSlice({
     addCategory: (state, action) => {
       state.categories.push(String(action.payload.categoryName));
     },
-
+    changeOrder: (state, action) => {
+      
+    },
     error: (state, action) => {
       state.errorMessage = action.payload.errorMessage;
     },

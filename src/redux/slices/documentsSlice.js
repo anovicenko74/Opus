@@ -20,7 +20,6 @@ const documentsSlice = createSlice({
   reducers: {
     addDocument: {
       reducer: (state, action) => {
-        state.count++;
         state.documents.push({
           ...state.currentDocument,
           ...action.payload,
@@ -44,7 +43,6 @@ const documentsSlice = createSlice({
           ...action.payload,
         };
         state.documents = stateDocuments;
-
         state.currentDocument.date = action.payload.date;
       },
       prepare: (payload) => {
@@ -67,7 +65,6 @@ const documentsSlice = createSlice({
       state.currentDocument = { ...emptyDocument };
     },
     deleteDocument: (state, action) => {
-      state.count--;
       state.documents.filter((doc) => doc.id !== action.payload.id);
     },
     documentError: (state, action) => {
