@@ -61,7 +61,7 @@ function Categories() {
       </Popup>
 
       <Popup
-        title={'Уверены, что хотите удалить категорию?'}
+        title={`Уверены, что хотите удалить ${removableCategory}?`}
         isOpen={removableCategory}
         onClose={() => setRemovableCategory('')}
       >
@@ -76,7 +76,7 @@ function Categories() {
             text={'Да'}
             onClick={() => {
               setRemovableCategory('');
-              dispatch(deleteCategory(removableCategory));
+              dispatch(deleteCategory({ category: removableCategory }));
             }}
           />
         </div>
