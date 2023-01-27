@@ -1,5 +1,5 @@
 import style from './style.module.css';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   saveCurrentDocument,
@@ -8,8 +8,11 @@ import {
 import SelectWithNavigation from '@/components/UI/Select/SelectWithNavigation';
 import DraggableSelect from './DraggableSelect';
 import Option from '@/components/UI/Select/Option';
+import Trash from '../Trash';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 
-function CategoriesList() {
+function CategoriesList({ setIsTrash }) {
   const dispatch = useDispatch();
   const [categories, currentDocument, documents] = useSelector((state) => [
     state.categories.categories,
@@ -36,7 +39,12 @@ function CategoriesList() {
   const renderDraggableSelect = ({ title, documents, key }) => {
     const count = documents.length;
     return (
-      <DraggableSelect title={title} key={key} count={count}>
+      <DraggableSelect
+        title={title}
+        key={key}
+        count={count}
+        setIsTrash={setIsTrash}
+      >
         {documents.map((doc) => renderOption(doc))}
       </DraggableSelect>
     );
@@ -74,6 +82,7 @@ function CategoriesList() {
           documents: categoryDocuments,
         });
       })}
+      <div>Drag'n'Drop it!</div>
     </>
   );
 }

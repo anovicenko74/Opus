@@ -13,6 +13,12 @@
   margin: 0px 0px 10px 0px;
 }
 
-.categoryButton {
+.header {
+  display: flex;
+  align-items: center;
   margin: 0 0 15px 0;
+}
+
+.trash {
+  margin: 0 0 0 35px;
 }

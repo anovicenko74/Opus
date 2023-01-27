@@ -6,11 +6,14 @@ import Popup from '@/components/UI/Popup';
 import style from './style.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCategory } from '@/redux/slices/categoriesSlice';
-
+import Trash from './Trash';
+import { deleteCategory } from '../../redux/slices/categoriesSlice';
 function Categories() {
-  const dispatch = useDispatch();
+  const [isTrash, setIsTrash] = useState(false);
   const [categoryName, setCategoryName] = useState('');
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isAddPopup, setIsAddPopup] = useState(false);
+  const [removableCategory, setRemovableCategory] = useState(false);
+  const dispatch = useDispatch();
   const [currentDocument, categories, errorMessage] = useSelector((state) => [
     state.documents.currentDocument,
     state.categories.categories,
@@ -23,17 +26,21 @@ function Categories() {
 
   return (
     <>
-      <div className={style.categoryButton}>
-        <Button
-          onClick={() => setIsPopupOpen(true)}
-          text={'Добавить категорию'}
-        />
+      <div className={style.header}>
+        <div className={style.categoryButton}>
+          <Button
+            onClick={() => setIsAddPopup(true)}
+            text={'Добавить категорию'}
+          />
+        </div>
+        <div className={style.trash}>
+          {isTrash && <Trash setRemovableCategory={setRemovableCategory} />}
+        </div>
       </div>
-
       <Popup
         title={'Добавить новую категорию'}
-        isOpen={isPopupOpen}
-        onClose={() => setIsPopupOpen(false)}
+        isOpen={isAddPopup}
+        onClose={() => setIsAddPopup(false)}
       >
         <div className={style.popupContentContainer}>
           <div className={style.popupInput}>
@@ -53,7 +60,29 @@ function Categories() {
         </div>
       </Popup>
 
-      <CategoriesList />
+      <Popup
+        title={'Уверены, что хотите удалить категорию?'}
+        isOpen={removableCategory}
+        onClose={() => setRemovableCategory('')}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            margin: '10px 0 0 0',
+          }}
+        >
+          <Button
+            text={'Да'}
+            onClick={() => {
+              setRemovableCategory('');
+              dispatch(deleteCategory(removableCategory));
+            }}
+          />
+        </div>
+      </Popup>
+
+      <CategoriesList setIsTrash={setIsTrash} />
     </>
   );
 }
