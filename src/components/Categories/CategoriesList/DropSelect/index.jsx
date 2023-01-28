@@ -4,8 +4,9 @@ import { ItemTypes } from '@/dragConstants';
 import { useDispatch } from 'react-redux';
 import { changeOrder } from '@/redux/slices/categoriesSlice';
 import { changeCategory } from '@/redux/slices/documentsSlice';
+import SelectWithNavigation from '@/components/UI/Select/SelectWithNavigation';
 
-function DropSelect({ setIsTrash, Select, ...props }) {
+function DropSelect({ setIsTrash, ...props }) {
   const dispatch = useDispatch();
   const [, drop] = useDrop(() => ({
     accept: [ItemTypes.CATEGORY_SELECT, ItemTypes.DOCUMENT_SELECT],
@@ -23,7 +24,11 @@ function DropSelect({ setIsTrash, Select, ...props }) {
     },
   }));
 
-  return <div ref={drop}><Select {...props, setIsTrash}/></div>;
+  return (
+    <div ref={drop}>
+      <SelectWithNavigation {...props} />
+    </div>
+  );
 }
 
 export default DropSelect;

@@ -6,8 +6,9 @@ import {
   switchCurrentDocument,
 } from '@/redux/slices/documentsSlice';
 import SelectWithNavigation from '@/components/UI/Select/SelectWithNavigation';
-import DragSelect from './DragSelect';
-import DraggableOption from './DragOption';
+import DragAndDropSelect from './DragAndDropSelect';
+import DropSelect from './DropSelect';
+import DragOption from './DragOption';
 import Trash from '../Trash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
@@ -36,23 +37,36 @@ function CategoriesList({ setIsTrash }) {
     dispatch(switchCurrentDocument({ id: doc.id }));
   };
 
-  const renderDragSelect = ({ title, category, documents, key }) => {
+  const renderDragAndDropSelect = ({ title, category, documents, key }) => {
     const count = documents.length;
     return (
-      <DragSelect
+      <DragAndDropSelect
         title={title}
         category={category}
         key={key}
         count={count}
         setIsTrash={setIsTrash}
       >
-        {documents.map((doc) => renderDraggableOption(doc))}
-      </DragSelect>
+        {documents.map((doc) => renderDragOption(doc))}
+      </DragAndDropSelect>
     );
   };
 
-  const renderDraggableOption = (doc) => (
-    <DraggableOption
+  const renderDropSelect = () => {
+    return (
+      <DropSelect
+        title="Все"
+        category=""
+        count={sortedDocuments.length}
+        setIsTrash={setIsTrash}
+      >
+        {sortedDocuments.map((doc) => renderDragOption(doc))}
+      </DropSelect>
+    );
+  };
+
+  const renderDragOption = (doc) => (
+    <DragOption
       selected={checkSelected(doc)}
       key={doc.id}
       onClick={(e) => {
@@ -62,24 +76,19 @@ function CategoriesList({ setIsTrash }) {
       text={doc.title}
     >
       <div className={style.documentCategory}>{doc.category}</div>
-    </DraggableOption>
+    </DragOption>
   );
 
   return (
     <>
-      {renderDragSelect({
-        title: 'Все',
-        category: null,
-        documents: sortedDocuments,
-      })}
+      {renderDropSelect()}
       <hr className={style.hr} />
-
       {categories.map((category) => {
         const categoryDocuments = sortedDocuments.filter((doc) => {
           return doc.category === category;
         });
 
-        return renderDragSelect({
+        return renderDragAndDropSelect({
           title: category,
           category: category,
           key: category,
