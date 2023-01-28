@@ -4,6 +4,7 @@ import categoriesReducer from './slices/categoriesSlice';
 import categoryCheckMiddleware from '@/redux/middlewares/categoryCheckMiddleware';
 import titleCheckMiddleware from '@/redux/middlewares/titleCheckMiddleware';
 import abortSaveMiddleware from './middlewares/abortSaveMiddleware';
+import cleanCategoryMiddleware from './middlewares/cleanCategoryMiddleware';
 
 import {
   persistStore,
@@ -39,7 +40,8 @@ const store = configureStore({
     }).prepend(
       categoryCheckMiddleware,
       titleCheckMiddleware,
-      abortSaveMiddleware
+      abortSaveMiddleware,
+      cleanCategoryMiddleware
     ),
 });
 

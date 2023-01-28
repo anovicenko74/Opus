@@ -6,8 +6,8 @@ import {
   switchCurrentDocument,
 } from '@/redux/slices/documentsSlice';
 import SelectWithNavigation from '@/components/UI/Select/SelectWithNavigation';
-import DraggableSelect from './DraggableSelect';
-import Option from '@/components/UI/Select/Option';
+import DragSelect from './DragSelect';
+import DraggableOption from './DragOption';
 import Trash from '../Trash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
@@ -36,39 +36,42 @@ function CategoriesList({ setIsTrash }) {
     dispatch(switchCurrentDocument({ id: doc.id }));
   };
 
-  const renderDraggableSelect = ({ title, documents, key }) => {
+  const renderDragSelect = ({ title, category, documents, key }) => {
     const count = documents.length;
     return (
-      <DraggableSelect
+      <DragSelect
         title={title}
+        category={category}
         key={key}
         count={count}
         setIsTrash={setIsTrash}
       >
-        {documents.map((doc) => renderOption(doc))}
-      </DraggableSelect>
+        {documents.map((doc) => renderDraggableOption(doc))}
+      </DragSelect>
     );
   };
 
-  const renderOption = (doc) => (
-    <Option
+  const renderDraggableOption = (doc) => (
+    <DraggableOption
       selected={checkSelected(doc)}
       key={doc.id}
       onClick={(e) => {
         handleSwitchDocument(e, doc);
       }}
+      id={doc.id}
       text={doc.title}
     >
       <div className={style.documentCategory}>{doc.category}</div>
-    </Option>
+    </DraggableOption>
   );
 
   return (
     <>
-      <SelectWithNavigation title="Все">
-        {sortedDocuments.map((doc) => renderOption(doc))}
-      </SelectWithNavigation>
-
+      {renderDragSelect({
+        title: 'Все',
+        category: null,
+        documents: sortedDocuments,
+      })}
       <hr className={style.hr} />
 
       {categories.map((category) => {
@@ -76,8 +79,9 @@ function CategoriesList({ setIsTrash }) {
           return doc.category === category;
         });
 
-        return renderDraggableSelect({
+        return renderDragSelect({
           title: category,
+          category: category,
           key: category,
           documents: categoryDocuments,
         });

@@ -72,16 +72,7 @@ function DocumentControl() {
         <div className={style.paper}>
           <Paper />
         </div>
-        <Select title="Категория">
-          {categories.map((category) => (
-            <Option
-              selected={category === currentDocument.category}
-              key={category}
-              text={category}
-              onClick={(e) => handleClickCategory(e, category)}
-            ></Option>
-          ))}
-        </Select>
+
         <Button
           onClick={handleSaveCurrentDocument}
           text={currentDocumentIsExist ? 'Сохранить' : 'Добавить'}
