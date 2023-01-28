@@ -7,6 +7,7 @@ import {
 } from '@/redux/slices/documentsSlice';
 import SelectWithNavigation from '@/components/UI/Select/SelectWithNavigation';
 import DraggableSelect from './DraggableSelect';
+import DragOption from './DragOption';
 import Option from '@/components/UI/Select/Option';
 import Trash from '../Trash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -51,16 +52,17 @@ function CategoriesList({ setIsTrash }) {
   };
 
   const renderOption = (doc) => (
-    <Option
+    <DragOption
       selected={checkSelected(doc)}
       key={doc.id}
+      id={doc.id}
       onClick={(e) => {
         handleSwitchDocument(e, doc);
       }}
       text={doc.title}
     >
       <div className={style.documentCategory}>{doc.category}</div>
-    </Option>
+    </DragOption>
   );
 
   return (

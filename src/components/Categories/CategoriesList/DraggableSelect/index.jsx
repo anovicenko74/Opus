@@ -4,6 +4,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { ItemTypes } from '@/dragConstants';
 import { useDispatch } from 'react-redux';
 import { changeOrder } from '@/redux/slices/categoriesSlice';
+import { changeCategory } from '../../../../redux/slices/documentsSlice';
 
 function DraggableSelect({ setIsTrash, ...props }) {
   const dispatch = useDispatch();
@@ -16,14 +17,18 @@ function DraggableSelect({ setIsTrash, ...props }) {
     end: () => setIsTrash(false),
   }));
   const [, drop] = useDrop(() => ({
-    accept: ItemTypes.CATEGORY_SELECT,
+    accept: [ItemTypes.CATEGORY_SELECT, ItemTypes.DOCUMENT_SELECT],
     drop: (item) => {
-      dispatch(
-        changeOrder({
-          firstCategory: props.title, // target category props
-          secondCategory: item.category,
-        })
-      );
+      if (item.category) {
+        dispatch(
+          changeOrder({
+            firstCategory: props.title, // target category props
+            secondCategory: item.category,
+          })
+        );
+      } else if (item.id) {
+        dispatch(changeCategory({ id: item.id, category: props.title }));
+      }
     },
   }));
 

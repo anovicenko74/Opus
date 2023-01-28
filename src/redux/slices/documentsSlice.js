@@ -5,7 +5,6 @@ const emptyDocument = {
   text: '',
   title: '',
   id: '',
-  category: '',
 };
 
 const documentsSlice = createSlice({
@@ -60,7 +59,6 @@ const documentsSlice = createSlice({
     setCurrentDocument: (state, action) => {
       state.currentDocument = { ...state.currentDocument, ...action.payload };
     },
-
     createEmptyDocument: (state) => {
       state.currentDocument = { ...emptyDocument };
     },
@@ -69,6 +67,22 @@ const documentsSlice = createSlice({
     },
     documentError: (state, action) => {
       state.errorMessage = action.payload.errorMessage;
+    },
+    cleanCategory: (state, action) => {
+      console.log(action.payload);
+      state.documents = state.documents.map((doc) => {
+        if (doc.category !== action.payload.category) return doc;
+        return { ...doc, category: '' };
+      });
+    },
+    changeCategory: (state, action) => {
+      state.documents.map((doc) => {
+        if (doc.id == action.payload.id) {
+          doc.category = action.payload.category;
+        }
+      });
+      if (state.currentDocument.id == action.payload.id)
+        state.currentDocument.category = action.payload.category;
     },
   },
 });
@@ -82,4 +96,5 @@ export const {
   createEmptyDocument,
   saveCurrentDocument,
   documentError,
+  changeCategory,
 } = documentsSlice.actions;
