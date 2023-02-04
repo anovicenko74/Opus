@@ -12,6 +12,7 @@ import DragOption from './DragOption';
 import Trash from '../Trash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
+import withDrag from '../../../HOC/DragHOC';
 
 function CategoriesList({ setIsTrash }) {
   const dispatch = useDispatch();
@@ -37,6 +38,14 @@ function CategoriesList({ setIsTrash }) {
     dispatch(switchCurrentDocument({ id: doc.id }));
   };
 
+  const renderDropSelect = () => {
+    return (
+      <DropSelect title="Все" category="" count={sortedDocuments.length}>
+        {sortedDocuments.map((doc) => renderDragOption(doc))}
+      </DropSelect>
+    );
+  };
+
   const renderDragAndDropSelect = ({ title, category, documents, key }) => {
     const count = documents.length;
     return (
@@ -46,22 +55,16 @@ function CategoriesList({ setIsTrash }) {
         key={key}
         count={count}
         setIsTrash={setIsTrash}
+        onDragStart={() => {
+          setIsTrash(true);
+        }}
+        onDragEnd={() => {
+          setIsTrash(false);
+        }}
+        item={{ category: category }}
       >
         {documents.map((doc) => renderDragOption(doc))}
       </DragAndDropSelect>
-    );
-  };
-
-  const renderDropSelect = () => {
-    return (
-      <DropSelect
-        title="Все"
-        category=""
-        count={sortedDocuments.length}
-        setIsTrash={setIsTrash}
-      >
-        {sortedDocuments.map((doc) => renderDragOption(doc))}
-      </DropSelect>
     );
   };
 
@@ -74,6 +77,13 @@ function CategoriesList({ setIsTrash }) {
       }}
       id={doc.id}
       text={doc.title}
+      onDragStart={() => {
+        setIsTrash(true);
+      }}
+      onDragEnd={() => {
+        setIsTrash(false);
+      }}
+      item={{ document: doc }}
     >
       <div className={style.documentCategory}>{doc.category}</div>
     </DragOption>

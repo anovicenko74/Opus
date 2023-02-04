@@ -12,7 +12,6 @@ function Categories() {
   const [isTrash, setIsTrash] = useState(false);
   const [categoryName, setCategoryName] = useState('');
   const [isAddPopup, setIsAddPopup] = useState(false);
-  const [removableCategory, setRemovableCategory] = useState(false);
   const dispatch = useDispatch();
   const [currentDocument, categories, errorMessage] = useSelector((state) => [
     state.documents.currentDocument,
@@ -34,7 +33,7 @@ function Categories() {
           />
         </div>
         <div className={style.trash}>
-          {isTrash && <Trash setRemovableCategory={setRemovableCategory} />}
+          <Trash isTrash={isTrash} setIsTrash={setIsTrash} />
         </div>
       </div>
       <Popup
@@ -57,28 +56,6 @@ function Categories() {
             ''
           )}
           <Button onClick={handleAddCategory} text={'Добавить'} />
-        </div>
-      </Popup>
-
-      <Popup
-        title={`Уверены, что хотите удалить ${removableCategory}?`}
-        isOpen={removableCategory}
-        onClose={() => setRemovableCategory('')}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            margin: '10px 0 0 0',
-          }}
-        >
-          <Button
-            text={'Да'}
-            onClick={() => {
-              setRemovableCategory('');
-              dispatch(deleteCategory({ category: removableCategory }));
-            }}
-          />
         </div>
       </Popup>
 

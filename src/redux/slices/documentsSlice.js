@@ -60,10 +60,15 @@ const documentsSlice = createSlice({
       state.currentDocument = { ...state.currentDocument, ...action.payload };
     },
     createEmptyDocument: (state) => {
-      state.currentDocument = { ...emptyDocument };
+      state.currentDocument = emptyDocument;
     },
     deleteDocument: (state, action) => {
-      state.documents.filter((doc) => doc.id !== action.payload.id);
+      state.documents = state.documents.filter(
+        (doc) => doc.id !== action.payload.id
+      );
+      if (state.currentDocument.id == action.payload.id) {
+        state.currentDocument = emptyDocument;
+      }
     },
     documentError: (state, action) => {
       state.errorMessage = action.payload.errorMessage;
@@ -80,8 +85,6 @@ const documentsSlice = createSlice({
           doc.category = action.payload.category;
         }
       });
-      if (state.currentDocument.id == action.payload.id)
-        state.currentDocument.category = action.payload.category;
     },
   },
 });
