@@ -8,16 +8,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addCategory } from '@/redux/slices/categoriesSlice';
 import Trash from './Trash';
 import { deleteCategory } from '../../redux/slices/categoriesSlice';
+
+const selector = (state) => state.categories.errorMessage;
+
 function Categories() {
   const [isTrash, setIsTrash] = useState(false);
   const [categoryName, setCategoryName] = useState('');
   const [isAddPopup, setIsAddPopup] = useState(false);
   const dispatch = useDispatch();
-  const [currentDocument, categories, errorMessage] = useSelector((state) => [
-    state.documents.currentDocument,
-    state.categories.categories,
-    state.categories.errorMessage,
-  ]);
+  const errorMessage = useSelector(selector);
 
   const handleAddCategory = (e) => {
     dispatch(addCategory({ categoryName }));

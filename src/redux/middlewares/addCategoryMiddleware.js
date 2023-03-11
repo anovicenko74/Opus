@@ -1,6 +1,6 @@
 let timerId;
 
-const categoryCheckMiddleware = (store) => (next) => (action) => {
+const addCategoryMiddleware = (store) => (next) => (action) => {
   if (action.type !== 'categories/addCategory') return next(action);
 
   let isError = false;
@@ -53,4 +53,4 @@ const categoryCheckMiddleware = (store) => (next) => (action) => {
   return next(action);
 };
 
-export default categoryCheckMiddleware;
+export default addCategoryMiddleware;

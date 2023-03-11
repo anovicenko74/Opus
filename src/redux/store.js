@@ -1,10 +1,10 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import documentsReducer from './slices/documentsSlice';
 import categoriesReducer from './slices/categoriesSlice';
-import categoryCheckMiddleware from '@/redux/middlewares/categoryCheckMiddleware';
+import addCategoryMiddleware from '@/redux/middlewares/addCategoryMiddleware';
 import titleCheckMiddleware from '@/redux/middlewares/titleCheckMiddleware';
 import abortSaveMiddleware from './middlewares/abortSaveMiddleware';
-import cleanCategoryMiddleware from './middlewares/cleanCategoryMiddleware';
+import deleteDocumentMiddleware from './middlewares/deleteDocumentMiddleware';
 
 import {
   persistStore,
@@ -38,10 +38,10 @@ const store = configureStore({
         ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).prepend(
-      categoryCheckMiddleware,
+      addCategoryMiddleware,
       titleCheckMiddleware,
       abortSaveMiddleware,
-      cleanCategoryMiddleware
+      deleteDocumentMiddleware
     ),
 });
 

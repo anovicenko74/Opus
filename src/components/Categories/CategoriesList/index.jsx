@@ -1,34 +1,36 @@
 import style from './style.module.css';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { createSelector } from '@reduxjs/toolkit';
 import {
   saveCurrentDocument,
   switchCurrentDocument,
 } from '@/redux/slices/documentsSlice';
-import SelectWithNavigation from '@/components/UI/Select/SelectWithNavigation';
 import DragAndDropSelect from './DragAndDropSelect';
 import DropSelect from './DropSelect';
 import DragOption from './DragOption';
-import Trash from '../Trash';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
-import withDrag from '../../../HOC/DragHOC';
+
+const selectSortedDocuments = createSelector(
+  (state) => state.documents.documents,
+  (documents) => documents.slice().sort((a, b) => b.date - a.date)
+);
 
 function CategoriesList({ setIsTrash }) {
   const dispatch = useDispatch();
-  const [categories, currentDocument, documents] = useSelector((state) => [
-    state.categories.categories,
-    state.documents.currentDocument,
-    state.documents.documents,
-  ]);
-  const currentDocumentIsExist = Boolean(currentDocument.id);
-  const sortedDocuments = useMemo(
-    () => documents.slice().sort((a, b) => b.date - a.date),
-    [documents]
+  const categories = useSelector((state) => state.categories.categories);
+  const sortedDocuments = useSelector(selectSortedDocuments);
+  const currentDocumentId = useSelector(
+    (state) => state.documents.currentDocument.id
   );
+  const currentDocumentIsExist = Boolean(currentDocumentId);
+
+  // const sortedDocuments = useMemo(() => {
+  //   return documents.slice().sort((a, b) => b.date - a.date);
+  // }, [documents]);
+  // - now its createSelector
 
   const checkSelected = (doc) => {
-    return doc.id === currentDocument.id;
+    return doc.id === currentDocumentId;
   };
 
   const handleSwitchDocument = (e, doc) => {

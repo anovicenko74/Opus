@@ -3,9 +3,9 @@ import style from './style.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentDocument } from '@/redux/slices/documentsSlice';
 
-function Paper(text) {
-  const currentDocument = useSelector(
-    (state) => state.documents.currentDocument
+function Paper() {
+  const currentDocumentText = useSelector(
+    (state) => state.documents.currentDocument.text
   );
   const dispatch = useDispatch();
   return (
@@ -15,7 +15,7 @@ function Paper(text) {
           onChange={(e) =>
             dispatch(setCurrentDocument({ text: e.target.value }))
           }
-          value={currentDocument.text}
+          value={currentDocumentText}
           className={style.textarea}
         ></textarea>
       </div>

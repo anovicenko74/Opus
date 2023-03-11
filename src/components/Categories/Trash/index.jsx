@@ -11,7 +11,7 @@ import { deleteDocument } from '@/redux/slices/documentsSlice';
 
 function Trash({ isTrash }) {
   const dispatch = useDispatch();
-  const [deleteControl, setdeleteControl] = useState({
+  const [deleteControl, setDeleteControl] = useState({
     title: '',
     handleDelete: () => {},
   });
@@ -22,23 +22,24 @@ function Trash({ isTrash }) {
     drop: (item) => {
       switch (item.type) {
         case DragTypes.CATEGORY_SELECT:
-          setdeleteControl({
+          setDeleteControl({
             handleDelete: () => {
               dispatch(deleteCategory({ category: item.payload.category }));
             },
             title: item.payload.category,
           });
+          setIsPopup(true);
           break;
         case DragTypes.DOCUMENT_SELECT:
-          setdeleteControl({
+          setDeleteControl({
             handleDelete: () => {
               dispatch(deleteDocument({ id: item.payload.document.id }));
             },
             title: item.payload.document.title,
           });
+          setIsPopup(true);
           break;
       }
-      setIsPopup(true);
     },
   }));
 

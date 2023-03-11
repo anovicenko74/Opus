@@ -15,13 +15,16 @@ import {
 } from '@/redux/slices/documentsSlice';
 
 function DocumentControl() {
-  const [currentDocument, errorMessage, categories] = useSelector((state) => [
-    state.documents.currentDocument,
-    state.documents.errorMessage,
-    state.categories.categories,
-  ]);
+  const currentDocumentTitle = useSelector(
+    (state) => state.documents.currentDocument.title
+  );
+  const currentDocumentDate = useSelector(
+    (state) => state.documents.currentDocument.date
+  );
+  const errorMessage = useSelector((state) => state.documents.errorMessage);
   const dispatch = useDispatch();
-  const currentDocumentIsExist = Boolean(currentDocument.id);
+  const currentDocumentIsExist = Boolean(currentDocumentDate);
+
   const handleCreateEmptyDocument = (e) => {
     if (currentDocumentIsExist) {
       dispatch(saveCurrentDocument());
@@ -30,6 +33,7 @@ function DocumentControl() {
       dispatch(createEmptyDocument());
     }
   };
+  
   const handleSaveCurrentDocument = (e) => {
     if (currentDocumentIsExist) {
       dispatch(saveCurrentDocument());
@@ -38,13 +42,6 @@ function DocumentControl() {
     }
   };
 
-  const handleClickCategory = (e, category) => {
-    if (category === currentDocument.category) {
-      dispatch(setCurrentDocument({ category: '' }));
-    } else {
-      dispatch(setCurrentDocument({ category }));
-    }
-  };
   return (
     <div>
       <div className={style.header}>
@@ -52,18 +49,18 @@ function DocumentControl() {
           <Input
             type="text"
             placeholder="Заголовок"
-            value={currentDocument.title}
+            value={currentDocumentTitle}
             onChange={(e) =>
               dispatch(setCurrentDocument({ title: e.target.value }))
             }
           />
           {errorMessage ? errorMessage : ''}
         </div>
-        {currentDocument.date && (
+        {currentDocumentDate && (
           <div className={style.timer}>
             <span className={style.timerTitle}>Cохранено:</span>
             <span>
-              <Timer initialTime={currentDocument.date} />
+              <Timer initialTime={currentDocumentDate} />
             </span>
           </div>
         )}

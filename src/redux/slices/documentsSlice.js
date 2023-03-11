@@ -66,19 +66,11 @@ const documentsSlice = createSlice({
       state.documents = state.documents.filter(
         (doc) => doc.id !== action.payload.id
       );
-      if (state.currentDocument.id == action.payload.id) {
-        state.currentDocument = emptyDocument;
-      }
     },
     documentError: (state, action) => {
       state.errorMessage = action.payload.errorMessage;
     },
-    cleanCategory: (state, action) => {
-      state.documents = state.documents.map((doc) => {
-        if (doc.category !== action.payload.category) return doc;
-        return { ...doc, category: '' };
-      });
-    },
+    cleanCategory: (state, action) => {},
     changeCategory: (state, action) => {
       state.documents.map((doc) => {
         if (doc.id == action.payload.id) {
@@ -86,6 +78,14 @@ const documentsSlice = createSlice({
         }
       });
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase('categories/deleteCategory', (state, action) => {
+      state.documents = state.documents.map((doc) => {
+        if (doc.category !== action.payload.category) return doc;
+        return { ...doc, category: '' };
+      });
+    });
   },
 });
 export default documentsSlice.reducer;
